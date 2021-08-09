@@ -3,12 +3,12 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: "天下行走"
 subtitle: ''
-description: ''
+description: '天下行走的个人博客'
 keywords:
-author: John Doe
-language: en
+author: 张宝元
+language: Zh-Hans
 timezone: ''
 
 # URL
@@ -40,6 +40,8 @@ external_link:
   exclude: ''
 filename_case: 0
 render_drafts: false
+
+# 新建文件时同时建立资源文件夹
 post_asset_folder: false
 relative_link: false
 future: true
