@@ -23,8 +23,6 @@ $ hexo new "My New Post"
 # 创建指定路径的文档: _ports/hexo/test.md
 $ hexo new --path hexo/test "title"
 $ hexo new -p hexo/test "title"
-
-# 
 ```
 
 ### 使用文档模板

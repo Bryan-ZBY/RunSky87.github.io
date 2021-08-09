@@ -8,7 +8,7 @@ subtitle: ''
 description: '天下行走的个人博客'
 keywords:
 author: 张宝元
-language: Zh-Hans
+language: zh-CN
 timezone: ''
 
 # URL
@@ -99,7 +99,8 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+## theme: landscape
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
