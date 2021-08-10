@@ -5,7 +5,6 @@ tags: hexo
 categories: hexo
 ---
 
-## 初始化准备
 ### 安装 hexo
 ```bash
 $ npm install -g hexo-cli
@@ -14,7 +13,6 @@ $ cd blog
 $ npm install
 ```
 
-## 文件系统
 ### 创建新文档
 ``` bash
 # 创建新文档
@@ -24,6 +22,8 @@ $ hexo new "My New Post"
 $ hexo new --path hexo/test "title"
 $ hexo new -p hexo/test "title"
 ```
+
+<!-- more -->
 
 ### 使用文档模板
 ```bash
