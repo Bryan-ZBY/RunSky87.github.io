@@ -88,7 +88,7 @@ $ git rm file-from
 $ git add file-to
 ```
 
-## 查看提交历史
+## Log 历史记录
 - 查看提交历史
 ```bash
 $ git log
@@ -181,7 +181,7 @@ $ git push remote-name branch-name
 $ git push remote-name local-branch-name:remote-branch-name
 ```
 
-## 打标签
+## Tag 标签
 - 查看标签列表
 ```bash
 $ git tag
@@ -230,11 +230,8 @@ $ git branch new-branch-name
 # 创建分支并跳转
 $ git checkout -b new-branch-name
 
-# 创建新的分支并关联到远程
+# 从远程拉取分支并自定义本地名称
 $ git checkout -b local-branch-name remote-name/branch-name
-
-# 同上
-$ git checkout --track remote-name/branch-name
 ```
 
 - 分支切换
