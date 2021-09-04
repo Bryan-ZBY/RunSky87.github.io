@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-fill-left.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="常用操作符 .: 重复上次修改 *: 搜索当前光标所在位置的单词 &#x2F;: 向后搜索单词 ?: 向前搜索单词 :: 进入命令行模式 u: 撤销最新的一次修改 &lt;C-r&gt;: 恢复撤销">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vim 基础操作">
+<meta property="og:url" content="http://example.com/2021/08/12/vim/vim1/index.html">
+<meta property="og:site_name" content="天下行走">
+<meta property="og:description" content="常用操作符 .: 重复上次修改 *: 搜索当前光标所在位置的单词 &#x2F;: 向后搜索单词 ?: 向前搜索单词 :: 进入命令行模式 u: 撤销最新的一次修改 &lt;C-r&gt;: 恢复撤销">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-12T07:49:21.000Z">
+<meta property="article:modified_time" content="2021-08-18T01:15:16.282Z">
+<meta property="article:author" content="张宝元">
+<meta property="article:tag" content="vim">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/08/12/vim/vim1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>vim 基础操作 | 天下行走</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">天下行走</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/12/vim/vim1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://zhangbaoyuan.oss-cn-shanghai.aliyuncs.com/test/head_favicon.ico">
+      <meta itemprop="name" content="张宝元">
+      <meta itemprop="description" content="天下行走的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天下行走">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vim 基础操作
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-12 15:49:21" itemprop="dateCreated datePublished" datetime="2021-08-12T15:49:21+08:00">2021-08-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-18 09:15:16" itemprop="dateModified" datetime="2021-08-18T09:15:16+08:00">2021-08-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vim-%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/" itemprop="url" rel="index"><span itemprop="name">vim 实用技巧</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="常用操作符"><a href="#常用操作符" class="headerlink" title="常用操作符"></a>常用操作符</h1><ul>
+<li><code>.</code>: 重复上次修改</li>
+<li><code>*</code>: 搜索当前光标所在位置的单词</li>
+<li><code>/</code>: 向后搜索单词</li>
+<li><code>?</code>: 向前搜索单词</li>
+<li><code>:</code>: 进入命令行模式</li>
+<li><code>u</code>: 撤销最新的一次修改</li>
+<li><code>&lt;C-r&gt;</code>: 恢复撤销</li>
+</ul>
+<span id="more"></span>
+
+<h1 id="插入模式"><a href="#插入模式" class="headerlink" title="插入模式"></a>插入模式</h1><h2 id="删除操作"><a href="#删除操作" class="headerlink" title="删除操作"></a>删除操作</h2><ul>
+<li><code>&lt;C-h&gt;</code>: 删除前一个字符 </li>
+<li><code>&lt;C-w&gt;</code>: 删除前一个单词</li>
+<li><code>&lt;C-u&gt;</code>: 删除到行首</li>
+</ul>
+<h2 id="回到普通模式"><a href="#回到普通模式" class="headerlink" title="回到普通模式"></a>回到普通模式</h2><ul>
+<li><code>&lt;Esc&gt;</code>: 退出</li>
+<li><code>&lt;C-[&gt;</code>: 退出</li>
+<li><code>&lt;C-o&gt;</code>: 很实用，退出执行一条普通命令，然后回到插入模式</li>
+</ul>
+<h2 id="数字操作"><a href="#数字操作" class="headerlink" title="数字操作"></a>数字操作</h2><ul>
+<li><code>&lt;C-r&gt;=12*12&lt;Enter&gt;</code>: 数学运算结果，144</li>
+</ul>
+<h1 id="普通模式"><a href="#普通模式" class="headerlink" title="普通模式"></a>普通模式</h1><h2 id="移动操作"><a href="#移动操作" class="headerlink" title="移动操作"></a>移动操作</h2><h3 id="基本移动"><a href="#基本移动" class="headerlink" title="基本移动"></a>基本移动</h3><ul>
+<li><code>h/j/k/l</code>: 光标左下上右移动</li>
+<li><code>b</code>: 将光标移动到单词开头</li>
+<li><code>e</code>: 将光标移动到单词结尾</li>
+<li><code>w</code>: 将光标移动到下一个单词开头 </li>
+<li><code>0</code>: 移动到行首</li>
+<li><code>$</code>: 移动到行尾</li>
+</ul>
+<h3 id="跳转功能"><a href="#跳转功能" class="headerlink" title="跳转功能"></a>跳转功能</h3><ul>
+<li><p><code>3G</code>: 跳转到第 3 行</p>
+</li>
+<li><p><code>3gg</code>: 跳转到第 3 行</p>
+</li>
+<li><p><code>gg</code>: 跳转到文件开头</p>
+</li>
+<li><p><code>G</code>: 跳转到文件结尾</p>
+</li>
+<li><p><code>zz</code>: 将光标所在行居于屏幕中央</p>
+</li>
+<li><p><code>%</code>: 跳转到括号的匹配处</p>
+</li>
+<li><p><code>(/)</code>: 跳转到上一句/下一句的开头</p>
+</li>
+<li><p><code>&#123;/&#125;</code>: 跳转到上一段/下一段的开头</p>
+</li>
+<li><p><code>H/M/L</code>: 跳转到屏幕的最上方/正中间/最下方</p>
+</li>
+<li><p>跳转操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- ``: 上上次编辑位置</span><br><span class="line">- `.: 上次编辑的位置</span><br><span class="line">- `[: 上次编辑的起点</span><br><span class="line">- `]: 上次编辑的终点</span><br><span class="line">- %h/%l: 括号匹配</span><br></pre></td></tr></table></figure></li>
+<li><p>跳转列表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">:jumps: 查看跳转列表</span><br><span class="line">&lt;C-o&gt;: 后退跳转</span><br><span class="line">&lt;C-i&gt;: 前进跳转</span><br></pre></td></tr></table></figure></li>
+<li><p>改变列表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">:changes: 查看改变列表</span><br><span class="line">g,: 后退跳转</span><br><span class="line">g;: 前进跳转</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="复制操作-y"><a href="#复制操作-y" class="headerlink" title="复制操作 - y"></a>复制操作 - y</h2><ul>
+<li>使用方式参照删除操作</li>
+<li><code>:reg</code>: 查看粘贴板</li>
+<li><code>&quot;3p</code>: 使用粘贴板 <code>&quot;3</code> 内容</li>
+<li><code>&quot;ayy</code>: 有名复制，粘贴方式: <code>&quot;ap</code></li>
+<li><code>&quot;_dd</code>: 删除但是不放到粘贴板</li>
+</ul>
+<h2 id="删除并进入编辑-c"><a href="#删除并进入编辑-c" class="headerlink" title="删除并进入编辑 - c"></a>删除并进入编辑 - c</h2><ul>
+<li>使用方式参照删除操作</li>
+</ul>
+<h2 id="删除操作-d"><a href="#删除操作-d" class="headerlink" title="删除操作 - d"></a>删除操作 - d</h2><ul>
+<li><code>de</code>: 删除光标位置到词尾</li>
+<li><code>dw</code>: 删除光标位置到下一个词首</li>
+<li><code>db</code>: 删除光标位置到词首</li>
+<li><code>dd</code>: 删除光标所在一行</li>
+<li><code>diw</code>: 删除光标所在位置单词，比 a 少个空格</li>
+<li><code>daw</code>: 删除光标所在位置单词</li>
+<li><code>daW</code>: 删除光标所在位置字串</li>
+<li><code>das</code>: 删除光标所在句子</li>
+<li><code>dap</code>: 删除光标所在段,空行为边界条件</li>
+<li><code>dnd</code>: 向下删除 n 行</li>
+<li><code>di&#125;</code>: 删除所在代码块部分内容，参考可视化匹配</li>
+</ul>
+<h2 id="替换操作"><a href="#替换操作" class="headerlink" title="替换操作"></a>替换操作</h2><ul>
+<li><code>r</code>: 替换单个字符</li>
+<li><code>R</code>: 替换输入模式，等同于<code>&lt;Insert&gt;</code>键</li>
+</ul>
+<h2 id="操作数字"><a href="#操作数字" class="headerlink" title="操作数字"></a>操作数字</h2><ul>
+<li><code>10&lt;C-x&gt;</code>: 对光标后第一个出现的数字减去十</li>
+<li><code>10&lt;C-a&gt;</code>: 对光标后第一个出现的数字加上十</li>
+</ul>
+<h2 id="查找和跳转"><a href="#查找和跳转" class="headerlink" title="查找和跳转"></a>查找和跳转</h2><h3 id="行内查找-f-F"><a href="#行内查找-f-F" class="headerlink" title="行内查找 f/F"></a>行内查找 f/F</h3><ul>
+<li><code>fn</code>: 行内向后搜索指定字符 n</li>
+<li><code>Fn</code>: 行内向前搜索指定字符 n</li>
+<li><code>,</code>: 跳到前一个匹配处</li>
+<li><code>;</code>: 跳到后一个匹配处</li>
+</ul>
+<h3 id="行内查找-t-T"><a href="#行内查找-t-T" class="headerlink" title="行内查找 t/T"></a>行内查找 t/T</h3><ul>
+<li>作用和 f/F 相似，光标停在他们匹配的字符前一个字符位置</li>
+</ul>
+<h3 id="全文查找"><a href="#全文查找" class="headerlink" title="全文查找"></a>全文查找</h3><ul>
+<li><code>/text</code>: 向下全文搜索字符串 text</li>
+<li><code>?text</code>: 向上全文搜索字符串 text</li>
+</ul>
+<h3 id="可视化匹配"><a href="#可视化匹配" class="headerlink" title="可视化匹配"></a>可视化匹配</h3><ul>
+<li><code>vi&#125;</code>: 所属代码块花括号内部部分全选</li>
+<li><code>vi&#39;</code>: 单引号内部字符串</li>
+<li><code>vi&quot;</code>: 花括号内部字符串</li>
+<li><code>vi&gt;</code>: 尖括号内部代码块<br>注：我们一般说，以 i开头的文本对象会选择分隔符内部的文本，而以 a 开头的文本对象则会选择包括分隔符在内的整个文本</li>
+</ul>
+<h2 id="大小写反转"><a href="#大小写反转" class="headerlink" title="大小写反转"></a>大小写反转</h2><ul>
+<li><code>g~</code>: 反转大小写</li>
+<li><code>gu</code>: 转为小写</li>
+<li><code>gU</code>: 转为大写</li>
+<li><code>guu</code>: 当前行转为小写</li>
+<li><code>gugu</code>: 同上，当前行转为小写</li>
+<li><code>guaw</code>: 所在单词转为小写</li>
+<li><code>guap</code>: 所在段落转为小写</li>
+</ul>
+<h1 id="命令行模式"><a href="#命令行模式" class="headerlink" title="命令行模式"></a>命令行模式</h1><ul>
+<li><code>:n</code>: 跳转到第 n 行</li>
+<li><code>:print</code>: 输出光标所在行内容</li>
+<li><code>:p</code>: 同上，print 的简写</li>
+<li><code>:$</code>: 跳转到末尾</li>
+<li><code>:3d</code>: 跳转到第3行，并删除第3行</li>
+<li><code>:2,5p</code>: 输出第2行到第5行区间内容</li>
+<li><code>:.p</code>: 输出当前行内容</li>
+<li><code>:.+3</code>: 跳转到当前行下的第三行</li>
+<li><code>:%p</code>: 输出文件所有行内容</li>
+<li><code>v/V</code>: 可是选中区域</li>
+<li><code>:&#39;&lt;,&#39;&gt;normal .</code>: 对高亮选区中的每一行，对其执行普通模式下的 .命令</li>
+<li><code>:&#39;&lt;,&#39;&gt;normal A;</code>: 区间内每行行尾添加一个分号</li>
+<li><code>:%normal I//</code>: 全文注释</li>
+<li><code>:!ll</code>: 查看文件列表，给命令加一个叹号前缀就可以调用外部程序。</li>
+<li><code>:shell</code>: 启动外部命令行，vim 置于后台，使用 exit 命令可以回到 vim。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vim/" rel="tag"># vim</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/12/git/pro-git2/" rel="prev" title="Git 实用技巧">
+      <i class="fa fa-chevron-left"></i> Git 实用技巧
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/12/dos/dos1/" rel="next" title="DOS 常用命令行">
+      DOS 常用命令行 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">1.</span> <span class="nav-text">常用操作符</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">插入模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C"><span class="nav-number">2.1.</span> <span class="nav-text">删除操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E5%88%B0%E6%99%AE%E9%80%9A%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text">回到普通模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E6%93%8D%E4%BD%9C"><span class="nav-number">2.3.</span> <span class="nav-text">数字操作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%99%AE%E9%80%9A%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">普通模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E6%93%8D%E4%BD%9C"><span class="nav-number">3.1.</span> <span class="nav-text">移动操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%A7%BB%E5%8A%A8"><span class="nav-number">3.1.1.</span> <span class="nav-text">基本移动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%B3%E8%BD%AC%E5%8A%9F%E8%83%BD"><span class="nav-number">3.1.2.</span> <span class="nav-text">跳转功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E6%93%8D%E4%BD%9C-y"><span class="nav-number">3.2.</span> <span class="nav-text">复制操作 - y</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%B9%B6%E8%BF%9B%E5%85%A5%E7%BC%96%E8%BE%91-c"><span class="nav-number">3.3.</span> <span class="nav-text">删除并进入编辑 - c</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C-d"><span class="nav-number">3.4.</span> <span class="nav-text">删除操作 - d</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%BF%E6%8D%A2%E6%93%8D%E4%BD%9C"><span class="nav-number">3.5.</span> <span class="nav-text">替换操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%95%B0%E5%AD%97"><span class="nav-number">3.6.</span> <span class="nav-text">操作数字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE%E5%92%8C%E8%B7%B3%E8%BD%AC"><span class="nav-number">3.7.</span> <span class="nav-text">查找和跳转</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8C%E5%86%85%E6%9F%A5%E6%89%BE-f-F"><span class="nav-number">3.7.1.</span> <span class="nav-text">行内查找 f&#x2F;F</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8C%E5%86%85%E6%9F%A5%E6%89%BE-t-T"><span class="nav-number">3.7.2.</span> <span class="nav-text">行内查找 t&#x2F;T</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E6%96%87%E6%9F%A5%E6%89%BE"><span class="nav-number">3.7.3.</span> <span class="nav-text">全文查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96%E5%8C%B9%E9%85%8D"><span class="nav-number">3.7.4.</span> <span class="nav-text">可视化匹配</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E5%B0%8F%E5%86%99%E5%8F%8D%E8%BD%AC"><span class="nav-number">3.8.</span> <span class="nav-text">大小写反转</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">命令行模式</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="张宝元"
+      src="https://zhangbaoyuan.oss-cn-shanghai.aliyuncs.com/test/head_favicon.ico">
+  <p class="site-author-name" itemprop="name">张宝元</p>
+  <div class="site-description" itemprop="description">天下行走的个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/RunSky87" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;RunSky87" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1755804908@qq.com" title="E-Mail → mailto:1755804908@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张宝元</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
