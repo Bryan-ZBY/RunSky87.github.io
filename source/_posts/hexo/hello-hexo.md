@@ -82,3 +82,9 @@ $ hexo g
 $ hexo deploy
 ```
 
+### 使用图片
+```bash
+$ mkdir souse/imgs
+# 图片放入上面路径内
+# 引入方法 '![image_name](/imgs/path)'
+```
